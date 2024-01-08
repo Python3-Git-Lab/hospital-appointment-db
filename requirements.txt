@@ -1,0 +1,4 @@
+Click==8.0.3
+SQLAlchemy==1.4.31
+
+# pip install -r requirements.txt
