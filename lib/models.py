@@ -3,6 +3,7 @@ from sqlalchemy.orm import relationship, backref
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy import create_engine
+from datetime import date
 
 convention = {
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
@@ -31,6 +32,11 @@ class Patient(Base):
 
     def __repr__(self):
         return f"{self.id}: {self.name}, DOB: {self.date_of_birth}, Gender: {self.gender}"
+    
+    #appointment filtering
+    def get_upcoming_appointments(self):
+        return [appointment for appointment in self.appointments if appointment.appointment_date >= date.today()]
+
 
 # Medical staff table
 class Staff(Base):
@@ -45,6 +51,10 @@ class Staff(Base):
 
     def __repr__(self):
         return f"Name: {self.name}, Specialization: {self.specialization}"
+    
+    #Filter appointment
+    def get_upcoming_appointments(self):
+        return [appointment for appointment in self.appointments if appointment.appointment_date >= date.today()]
 
 # Appointment table
 class Appointment(Base):
@@ -60,5 +70,15 @@ class Appointment(Base):
 
     def __repr__(self):
         return f"Appointment ID: {self.id}\n\tDate of Appointment: {self.appointment_date}"
+    
+    #Staff details
+    def staff_details(self):
+        return f"Staff ID: {self.staff_id}, Staff Name: {self.staff.name}" if self.staff else "No Staff Assigned"
+    
+    #appointment details
+    def appointment_details(self):
+        return f"Appointment ID: {self.id}\n\tDate of Appointment: {self.appointment_date}\n\tType: {self.appointment_type}"
+
+
 
 
