@@ -11,6 +11,7 @@ convention = {
 metadata = MetaData(naming_convention=convention)
 
 Base = declarative_base(metadata=metadata)
+# engine = create_engine('sqlite:///hospital.db')
 
 if __name__ == '__main__':
     engine = create_engine('sqlite:///hospital.db')
@@ -78,6 +79,8 @@ class Appointment(Base):
     #appointment details
     def appointment_details(self):
         return f"Appointment ID: {self.id}\n\tDate of Appointment: {self.appointment_date}\n\tType: {self.appointment_type}"
+
+engine = create_engine('sqlite:///hospital.db')
 
 
 
