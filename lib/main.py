@@ -57,20 +57,32 @@ def display_doctors():
 #check appointments
 def check_appointments():
     """Check upcoming and past appointments for patients."""
-    # print("\nSelect option: ")
-    # print("1. Check appointment: ")
-    choice= int(input("\nEnter appointment id: "))
-
-    session = Session()
-    id= session.query(Appointment).filter(Appointment.id==choice).all()
-    # print(id)
-    
-    if id!=[]:
-        print ("\n-----------------------------\nAppointment available\n--------------------------------")
-    else:
-         print("\n-----------------------------\nAppointment not available\n-----------------------------")
-
-
+    while True:
+        print("\nSelect option: ")
+        print("1. Check appointment availability: ")
+        print("2. Check appointment date: ")
+        print("3. BACK")
+        choice= int(input("\nSelect option: "))
+        session = Session()
+        if (choice==1):
+            appt_id = input("\nEnter Appointment id: ")
+            id= session.query(Appointment).filter(Appointment.id==appt_id).all()
+            # print(id)
+            if id!=[]:
+                print ("\n-----------------------------\nAppointment is available\n--------------------------------")
+            else:
+                print("\n-----------------------------\nAppointment not available\n-----------------------------")
+        elif (choice==2):
+            app_id = input("\nEnter Appointment id: ")
+            id= session.query(Appointment).filter(Appointment.id==app_id).all()
+            print(id[0])
+            # print(id[0])
+        elif(choice==3):
+             menu_options()
+        else:
+             print("Invalid option")
+             pass
+#Menu option
 def menu_options():
     print("\nSelect option: ")
     print("1. Add Patient")

@@ -70,7 +70,7 @@ class Appointment(Base):
     staff_id = Column(Integer(), ForeignKey('staffs.id', name='fk_appointments_staff_id_staffs'), nullable=True)
 
     def __repr__(self):
-        return f"Appointment ID: {self.id}\n\tDate of Appointment: {self.appointment_date}"
+        return f"Date of Appointment: {self.appointment_date}"
     
     #Staff details
     def staff_details(self):
