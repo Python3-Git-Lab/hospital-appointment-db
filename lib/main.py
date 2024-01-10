@@ -76,12 +76,12 @@ def check_appointments():
             app_id = input("\nEnter Appointment id: ")
             id= session.query(Appointment).filter(Appointment.id==app_id).all()
             print(id[0])
-            # print(id[0])
+            
         elif(choice==3):
              menu_options()
         else:
              print("Invalid option")
-             pass
+             menu_options()
 #Menu option
 def menu_options():
     print("\nSelect option: ")
@@ -100,7 +100,7 @@ def menu_options():
     elif(choice==4):
           check_appointments()
     elif(choice==5):
-            pass
+            exit()
     else:
             print("Invalid option")
 
