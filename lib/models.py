@@ -46,6 +46,7 @@ class Staff(Base):
     id = Column(Integer, primary_key=True)
     name = Column(String, nullable=False)
     specialization = Column(String, nullable=False)
+    
 
     # Relationships
     appointments = relationship("Appointment", backref=backref("staff"), cascade='all, delete-orphan')
@@ -80,7 +81,7 @@ class Appointment(Base):
     def appointment_details(self):
         return f"Appointment ID: {self.id}\n\tDate of Appointment: {self.appointment_date}\n\tType: {self.appointment_type}"
 
-engine = create_engine('sqlite:///hospital.db')
+# engine = create_engine('sqlite:///hospital.db')
 
 
 

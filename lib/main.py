@@ -1,8 +1,9 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import click
-from models import Base, Patient, Appointment, Staff, engine
+from models import Base, Patient, Appointment, Staff
 from datetime import datetime
+
 
 def add_patient():
     #"""Add a new patient."""
@@ -27,7 +28,7 @@ def schedule_appointment():
         dob = datetime.strptime(dob_str, "%Y-%m-%d").date()
         type = input('Enter appointment type: ')
         patient_id = input('Enter patient ID: ')
-        doctor_id = input('Enter doctor ID: \n')
+        doctor_id = input('Enter doctor ID: ')
 
         session = Session()
         new_appointment = Appointment(appointment_date=dob, appointment_type= type, patient_id=patient_id, staff_id=doctor_id)
@@ -105,8 +106,8 @@ def menu_options():
             print("Invalid option")
 
 if __name__ == "__main__":
-    # DATABASE_URL = "sqlite:///hospital.db"
-    # engine = create_engine(DATABASE_URL)
+    DATABASE_URL = "sqlite:///hospital.db"
+    engine = create_engine(DATABASE_URL)
     Session = sessionmaker(bind=engine)
     session = Session()
 
