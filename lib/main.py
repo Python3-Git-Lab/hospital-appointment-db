@@ -1,26 +1,30 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import click
-from models import Base, Patient, Appointment, Staff
+from models import Base, Patient, Appointment, Staff, engine
 from datetime import datetime
 
-
 def add_patient():
-    #"""Add a new patient."""
-    print("\nAdd patient")
-    name = input('Enter patient name: ')
-    dob_str = input("Enter date of birth (YYYY-MM-DD): ")
-    dob = datetime.strptime(dob_str, "%Y-%m-%d").date()
-    gender = input('Enter gender: ')
-    contact = input('Enter contact number: ')
+    try:
+        #"""Add a new patient."""
+        print("\nAdd patient")
+        name = input('Enter patient name: ')
+        dob_str = input("Enter date of birth (YYYY-MM-DD): ")
+        dob = datetime.strptime(dob_str, "%Y-%m-%d").date()
+        gender = input('Enter gender: ')
+        contact = input('Enter contact number: ')
 
-    new_patient = Patient(name=name, date_of_birth=dob, gender=gender, contact_number=contact)
-    session.add(new_patient)
-    session.commit()
-    session.close()
-    click.echo(f"Patient '{name}' added successfully.")
+        new_patient = Patient(name=name, date_of_birth=dob, gender=gender, contact_number=contact)
+        session.add(new_patient)
+        session.commit()
+        session.close()
+        click.echo(f"Patient '{name}' added successfully.")
+    except:
+         print("Error occured")
+         menu_options()
 
 def schedule_appointment():
+    try:
         """Schedule a new appointment."""
         print("\nBooking apointment: ")
         # date = input('Enter appointment date (YYYY-MM-DD): ')
@@ -36,18 +40,25 @@ def schedule_appointment():
         session.commit()
         session.close()
         click.echo(f"Appointment scheduled successfully for Patient ID {patient_id} with Doctor ID {doctor_id}.")
+    except:
+            print("\nError occured")
+            menu_options()
 
 def add_staff():
-    print("\nAdd medical staff")
-    name= input("Enter staff name: ")
-    role = input("Enter staff specialization: ")
+    try:
+        print("\nAdd medical staff")
+        name= input("Enter staff name: ")
+        role = input("Enter staff specialization: ")
 
-    session=Session()
-    new_staff = Staff(name=name,specialization =role)
-    session.add(new_staff)
-    session.commit()
-#  staff_id=new_staff.id
-    click.echo(f'Staff with name {name} added successfully.')
+        session=Session()
+        new_staff = Staff(name=name,specialization =role)
+        session.add(new_staff)
+        session.commit()
+    #  staff_id=new_staff.id
+        click.echo(f'Staff with name {name} added successfully.')
+    except:
+         print("\nError occured")
+         menu_options()
 
 def display_doctors():
     """Display all doctors in the system."""
@@ -59,30 +70,32 @@ def display_doctors():
 def check_appointments():
     """Check upcoming and past appointments for patients."""
     while True:
-        print("\nSelect option: ")
-        print("1. Check appointment availability: ")
-        print("2. Check appointment date: ")
-        print("3. BACK")
-        choice= int(input("\nSelect option: "))
-        session = Session()
-        if (choice==1):
-            appt_id = input("\nEnter Appointment id: ")
-            id= session.query(Appointment).filter(Appointment.id==appt_id).all()
-            # print(id)
-            if id!=[]:
-                print ("\n-----------------------------\nAppointment is available\n--------------------------------")
+        try:
+            print("\nSelect option: ")
+            print("1. Check appointment availability: ")
+            print("2. Check appointment date: ")
+            print("3. BACK")
+            choice= int(input("\nSelect option: "))
+            session = Session()
+            if (choice==1):
+                appt_id = input("\nEnter Appointment id: ")
+                id= session.query(Appointment).filter(Appointment.id==appt_id).all()
+                # print(id)
+                if id!=[]:
+                    print ("\n-----------------------------\nAppointment is available\n--------------------------------")
+                else:
+                    print("\n-----------------------------\nAppointment not available\n-----------------------------")
+            elif (choice==2):
+                app_id = input("\nEnter Appointment id: ")
+                id= session.query(Appointment).filter(Appointment.id==app_id).all()
+                print(id[0])  
+            elif(choice==3):
+                menu_options()
             else:
-                print("\n-----------------------------\nAppointment not available\n-----------------------------")
-        elif (choice==2):
-            app_id = input("\nEnter Appointment id: ")
-            id= session.query(Appointment).filter(Appointment.id==app_id).all()
-            print(id[0])
-            
-        elif(choice==3):
-             menu_options()
-        else:
-             print("Invalid option")
-             menu_options()
+                print("Invalid option")
+                menu_options()
+        except:
+             print("\nRecord not found")
 #Menu option
 def menu_options():
     print("\nSelect option: ")

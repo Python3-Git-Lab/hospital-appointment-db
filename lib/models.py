@@ -81,7 +81,7 @@ class Appointment(Base):
     def appointment_details(self):
         return f"Appointment ID: {self.id}\n\tDate of Appointment: {self.appointment_date}\n\tType: {self.appointment_type}"
 
-# engine = create_engine('sqlite:///hospital.db')
+engine = create_engine('sqlite:///hospital.db')
 
 
 
