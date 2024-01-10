@@ -1,9 +1,8 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import click
-from models import Base, Patient, Appointment, Staff, engine
+from models import Base, Patient, Appointment, Staff, engine, session
 from datetime import datetime
-
 def add_patient():
     try:
         #"""Add a new patient."""
@@ -34,7 +33,7 @@ def schedule_appointment():
         patient_id = input('Enter patient ID: ')
         doctor_id = input('Enter doctor ID: ')
 
-        session = Session()
+        # session = Session()
         new_appointment = Appointment(appointment_date=dob, appointment_type= type, patient_id=patient_id, staff_id=doctor_id)
         session.add(new_appointment)
         session.commit()
@@ -50,7 +49,7 @@ def add_staff():
         name= input("Enter staff name: ")
         role = input("Enter staff specialization: ")
 
-        session=Session()
+        # session=Session()
         new_staff = Staff(name=name,specialization =role)
         session.add(new_staff)
         session.commit()
@@ -62,7 +61,7 @@ def add_staff():
 
 def display_doctors():
     """Display all doctors in the system."""
-    session = Session()
+    # session = Session()
     doctors = session.query(Staff.name).all()
     print(doctors)
 
@@ -70,13 +69,13 @@ def display_doctors():
 def check_appointments():
     """Check upcoming and past appointments for patients."""
     while True:
+        print("\nSelect option: ")
+        print("1. Check appointment availability: ")
+        print("2. Check appointment date: ")
+        print("3. BACK")
+        choice= int(input("\nSelect option: "))
+        # session = Session()
         try:
-            print("\nSelect option: ")
-            print("1. Check appointment availability: ")
-            print("2. Check appointment date: ")
-            print("3. BACK")
-            choice= int(input("\nSelect option: "))
-            session = Session()
             if (choice==1):
                 appt_id = input("\nEnter Appointment id: ")
                 id= session.query(Appointment).filter(Appointment.id==appt_id).all()
@@ -93,9 +92,9 @@ def check_appointments():
                 menu_options()
             else:
                 print("Invalid option")
-                menu_options()
+                # menu_options()
         except:
-             print("\nRecord not found")
+             print("Record not found")
 #Menu option
 def menu_options():
     print("\nSelect option: ")
@@ -119,10 +118,10 @@ def menu_options():
             print("Invalid option")
 
 if __name__ == "__main__":
-    DATABASE_URL = "sqlite:///hospital.db"
-    engine = create_engine(DATABASE_URL)
-    Session = sessionmaker(bind=engine)
-    session = Session()
+    # DATABASE_URL = "sqlite:///hospital.db"
+    # engine = create_engine(DATABASE_URL)
+    # Session = sessionmaker(bind=engine)
+    # session = Session()
 
     # session.query(Patient).delete()
     print("\nWelcome to our Hospital\n--------------------------------")
