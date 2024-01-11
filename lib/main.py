@@ -1,7 +1,7 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 import click
-from models import Base, Patient, Appointment, Staff, engine, session
+from models import Patient, Appointment, Staff, session
 from datetime import datetime
 def add_patient():
     try:
@@ -33,12 +33,19 @@ def schedule_appointment():
         patient_id = input('Enter patient ID: ')
         doctor_id = input('Enter doctor ID: ')
 
+        id= session.query(Staff.id).filter(Staff.id==doctor_id).all()
+        pat_id= session.query(Patient.id).filter(Patient.id==patient_id).all()
+        if id == []:
+             click.echo("\nInvalid Doctor Id!")
+        if pat_id==[]:
+                click.echo("\nInvalid Patient Id!")
         # session = Session()
-        new_appointment = Appointment(appointment_date=dob, appointment_type= type, patient_id=patient_id, staff_id=doctor_id)
-        session.add(new_appointment)
-        session.commit()
-        session.close()
-        click.echo(f"Appointment scheduled successfully for Patient ID {patient_id} with Doctor ID {doctor_id}.")
+        else:
+            new_appointment = Appointment(appointment_date=dob, appointment_type= type, patient_id=patient_id, staff_id=doctor_id)
+            session.add(new_appointment)
+            session.commit()
+            session.close()
+            click.echo(f"Appointment scheduled successfully for Patient ID {patient_id} with Doctor ID {doctor_id}.")
     except:
             print("\nError occured")
             menu_options()
@@ -104,6 +111,7 @@ def menu_options():
     print("4. Check appointment")
     print("5. Quit\n")
     choice = int(input("Please enter your option :"))
+    
     if (choice==1):
         add_patient()
     elif (choice==2):
